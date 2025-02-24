@@ -77,7 +77,6 @@ def get_result_data_trump():
     df = pd.read_csv("data/tweets_01-08-2021.csv")
     raw_docs = df["text"].tolist()[:-1]
     chunk_size = 11314
-    # chunk_size=2225
     overlap_ratio = 0
     text_chunks = split_into_chunks(
         raw_docs, chunk_size=chunk_size, overlap_ratio=overlap_ratio
