@@ -61,28 +61,6 @@ To set up the environment for running GraphTopics, follow these steps:
    python runner.py
    ```
 
-## Usage Details
-
-# GraphTopic
-
-GraphTopic is a graph-based topic extraction and merging framework designed to analyze a collection of documents and extract meaningful topics. The approach leverages keyphrase extraction, graph structures, and embedding-based merging to identify and group related topics for better topic representation.
-
-## Features
-
-- **Keyphrase Extraction**: Extracts keyphrases from individual documents and the merged corpus.
-- **Graph-Based Topic Modeling**: Builds a topic graph by connecting keyphrases from different documents.
-- **Hierarchical Merging**: Merges trivial topics iteratively to generate latent topics.
-- **Embedding-Based Topic Refinement**: Uses Sentence Transformers to merge semantically similar topics.
-- **Configurable Parameters**: Allows fine-tuning of keyphrase extraction, merging thresholds, and pruning options.
-
-## Installation
-
-To use GraphTopic, install the required dependencies:
-
-```sh
-pip install pandas tqdm sentence-transformers
-```
-
 ## Usage
 
 ### Basic Example
