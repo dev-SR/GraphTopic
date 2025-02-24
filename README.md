@@ -1,5 +1,23 @@
 # GraphTopic
 
+- [GraphTopic](#graphtopic)
+  - [Introduction to GraphTopic](#introduction-to-graphtopic)
+  - [Instructions on How to Create and Run the Environment](#instructions-on-how-to-create-and-run-the-environment)
+  - [Usage](#usage)
+    - [Basic Example](#basic-example)
+    - [Class `GraphTopic`](#class-graphtopic)
+      - [`__init__(self, docs, TopM=500, TopN=10, keyphrase_extractor=getKeyPhrasesUsingKeyBERT, embedding_model=embeddingModel, pretty_print=False, prune_node_count_less_than=2, overlapping_threshold=0.5, max_topics=float("inf"), max_keyphrases_per_topic=100, keyphrases_selection_strategy=KeyphrasesSelectionStrategy.CDIST)`](#__init__self-docs-topm500-topn10-keyphrase_extractorgetkeyphrasesusingkeybert-embedding_modelembeddingmodel-pretty_printfalse-prune_node_count_less_than2-overlapping_threshold05-max_topicsfloatinf-max_keyphrases_per_topic100-keyphrases_selection_strategykeyphrasesselectionstrategycdist)
+      - [`get_topics(self) -> List[List]`](#get_topicsself---listlist)
+  - [Comparison of GraphTopic with Other Models](#comparison-of-graphtopic-with-other-models)
+    - [**Datasets Used**](#datasets-used)
+    - [**Topic Modeling Methods Evaluated**](#topic-modeling-methods-evaluated)
+    - [**Evaluation Metrics**](#evaluation-metrics)
+    - [**Processing Steps**](#processing-steps)
+    - [**Results Interpretation**](#results-interpretation)
+  - [**Contribution**](#contribution)
+  - [**Conclusion**](#conclusion)
+
+
 ## Introduction to GraphTopic
 
 GraphTopic is a topic modeling framework designed for extracting and merging topics from a list of documents using a graph-based approach. It leverages keyphrase extraction, sentence embeddings, and graph theory to identify coherent and meaningful topics within a document collection.
@@ -150,9 +168,9 @@ Here's a basic example demonstrating how to use the `GraphTopic` class:
 * **`List[List]`**: A list of final topics. Each topic is represented as a list of keyphrases (strings). If `max_topics` is specified in the constructor, each topic will contain at most `max_keyphrases_per_topic` keyphrases, selected according to the `keyphrases_selection_strategy`.
 
 
+## Comparison of GraphTopic with Other Models
 
-## Comparison of Running Tests with Other Models
-
+The objective is to evaluate the performance of multiple topic extraction techniques and compare their effectiveness using various metrics.
 The `test-runner.py` script provides a comprehensive comparison of different topic modeling techniques, including:
 
 - **BERT Topic Modeling**: - Utilizes BERT embeddings to extract topics and evaluate their coherence, semantic similarity, and diversity.
@@ -161,15 +179,81 @@ The `test-runner.py` script provides a comprehensive comparison of different top
 - **HDP (Hierarchical Dirichlet Process)**: A nonparametric Bayesian approach that allows for an unknown number of topics.
 - **NMF (Non-negative Matrix Factorization)**: Factorizes the document-term matrix into non-negative factors to identify topics.
 
-### Performance Metrics
 
-For each model, the following metrics are calculated:
+### **Datasets Used**
+1. **20 Newsgroups(18840 documents)**
+2. **Trump Dataset(56,570 documents)**
+3. **BBC Dataset(11,125 documents)**
 
-- **Coherence Scores**: Measure the degree of semantic similarity between high-scoring words in a topic.
-- **Semantic Similarity Scores**: Evaluate how similar the topics are based on their embeddings.
-- **Diversity Scores**: Assess the variety of topics generated, ensuring that they cover different aspects of the data.
+Each dataset consists of a large number of documents. To ensure robust evaluation, each dataset was divided into five equal chunks, and topic modeling techniques were applied separately to each chunk. The final reported results for each dataset are the average scores computed over these five chunks. The chunk sizes for each dataset are as follows: Trump Dataset - 11,314 documents per chunk, BBC Dataset - 2,225 documents per chunk, and 20 Newsgroups - 3,768 documents per chunk.
 
-By comparing these metrics across different models, users can determine which method best suits their specific dataset and analysis goals.
+### **Topic Modeling Methods Evaluated**
+- **Bertopic**
+- **LDA (Latent Dirichlet Allocation)**
+- **LSI (Latent Semantic Indexing)**
+- **HDP (Hierarchical Dirichlet Process)**
+- **NMF (Non-negative Matrix Factorization)**
+- **GraphTopic**
+
+### **Evaluation Metrics**
+To compare the performance of the topic modeling techniques, the following evaluation metrics were used:
+- **Coherence Scores:**
+  - c_npmi
+  - c_uci
+  - c_v
+  - u_mass
+- **Semantic Coherence Metrics:**
+  - Inter-topic distance average
+  - Intra-topic similarity average
+  - Overall coherence score of average of inter-topic distance and intra-topic similarity
+- **Topic Diversity Score**
+
+### **Processing Steps**
+1. **Text Preprocessing**:
+   - Extract noun phrases from documents.
+   - Apply deep text cleaning.
+2. **Corpus and Dictionary Creation**:
+   - Convert text into a corpus using Gensim preprocessing.
+3. **Topic Extraction**:
+   - Apply each topic modeling method to extract topics.
+4. **Score Calculation**:
+   - Compute coherence, semantic coherence, and diversity scores for each method.
+5. **Aggregation**:
+   - Aggregate results over five chunks for each dataset to compute the final average scores.
+6. **Result Storage**:
+   - Save individual and average results to CSV files for further analysis.
+
+### **Results Interpretation**
+The final output includes:
+- A dataframe of all test results.
+- An aggregated dataframe with average results per method.
+- CSV files for both individual and average results.
+
+The average results help in assessing the overall performance of each method, providing insights into which techniques perform best across different datasets.
+
+
+
+## **Contribution**
+
+We welcome contributions to enhance this analysis. If you wish to contribute, please follow these steps:
+
+1. **Fork the Repository**: Start by forking the project repository to your own GitHub account.
+2. **Create a New Branch**: Use a descriptive name for your branch, such as `feature-improve-metrics` or `bugfix-data-processing`.
+3. **Implement Changes**: Make the necessary modifications, whether it’s refining the evaluation metrics, improving the data preprocessing steps, or adding new topic modeling techniques.
+4. **Test Your Changes**: Ensure that your modifications work correctly by running tests and verifying that results are consistent.
+5. **Submit a Pull Request (PR)**:
+   - Provide a clear and concise description of the changes made.
+   - Include any relevant test results or explanations for new features.
+   - Request a review from the maintainers.
+6. **Collaborate on Review**: Address any feedback or requested changes from the project maintainers.
+
+We appreciate all contributions and encourage discussions to improve the topic modeling evaluation framework further!
+
+
+
+## **Conclusion**
+This experimental setup ensures a fair and comprehensive evaluation of topic modeling methods. By analyzing the average results across multiple dataset chunks, we gain a better understanding of the strengths and weaknesses of each method in handling real-world text data.
+
 
 ---
 
