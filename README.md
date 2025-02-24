@@ -55,7 +55,7 @@ To set up the environment for running GraphTopics, follow these steps:
    >>> nltk.download("averaged_perceptron_tagger_eng")
    ```
 
-6. **Run Sample**:
+6. **Run a sample example**:
    To execute the tests and see the results, run:
    ```bash
    python runner.py
@@ -87,6 +87,7 @@ graph_topic_model = GraphTopic(
 topics = graph_topic_model.get_topics()
 print("Extracted Topics:", topics)
 ```
+
 
 Here's a basic example demonstrating how to use the `GraphTopic` class:
 
